@@ -1,0 +1,18 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+# Office lock/temp files
+~$*
+.~lock.*#
+# generated artefacts at the repo root (re-create with the run order in README.md)
+/data/cache/*
+/checkpoints/*
+/results/*
+!/data/cache/.gitkeep
+!/checkpoints/.gitkeep
+!/results/.gitkeep
+features.md
+Paper Template (1)(1).docx
+paper/
+# paper/results is intentionally tracked

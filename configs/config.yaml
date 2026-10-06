@@ -1,0 +1,78 @@
+# Default configuration (CartPole, visual observations).
+# Other configs (e.g. atari.yaml) only list overrides and are merged on top of this file.
+
+run_name: cartpole        # sub-folder name under checkpoints/, results/, data/cache/
+seed: 0
+seeds: [0, 1, 2]          # seeds used by the data-size sweep / multi-seed experiments
+device: auto              # auto | cpu | cuda
+
+env:
+  type: cartpole          # cartpole | atari
+  name: CartPole-v1       # or ALE/Pong-v5
+  image_size: 64          # fixed to 64 (models assume 64x64)
+  frame_stack: 2          # stacked grayscale frames (gives the model velocity information)
+  max_steps: 200          # episode cap (applies to every method: random, DQN, MPC)
+  clip_reward: false      # sign-clip rewards (use true for Atari)
+
+data:
+  train_transitions: 20000
+  test_transitions: 5000
+  sizes: [1000, 5000, 10000, 20000]
+  # CartPole only: fraction of collection episodes driven by a noisy hand-written balancing
+  # heuristic (uses the true state ONLY to collect data; the world model never sees it).
+  # Pure random episodes last ~20 steps, too short to evaluate H=20 imagination.
+  heuristic_fraction: 0.5
+  heuristic_epsilon: 0.3  # prob. of a random action inside heuristic episodes
+
+vae:
+  latent_dim: 32
+  beta: 0.1               # weight on KL (recon is summed squared error per image)
+  lr: 1.0e-3
+  epochs: 30
+  batch_size: 128
+  val_fraction: 0.1
+
+dynamics:
+  hidden: 256             # capacity ablation: 128 / 256 / 512
+  layers: 1
+  seq_len: 16
+  lr: 1.0e-3
+  epochs: 50
+  batch_size: 256
+  val_fraction: 0.1
+  reward_weight: 1.0
+  done_weight: 1.0
+  done_pos_weight: 5.0
+  grad_clip: 10.0
+
+eval:
+  horizons: [1, 5, 10, 20]
+  n_samples: 5            # stochastic rollouts averaged per start state
+  max_starts: 512         # start states used for multi-step evaluation
+  chunk: 128
+
+mpc:
+  horizon: 10             # default horizon (used by the data-size link experiment)
+  candidates: 256
+  context: 8              # real (z, a) pairs fed to the GRU before planning (< dynamics.seq_len)
+  sample: true            # sample imagined latents (true) or use the mean (false)
+
+control:
+  horizons: [1, 5, 10, 20]
+  episodes: 20
+  link_episodes: 10
+
+dqn:
+  total_steps: 80000
+  lr: 2.5e-4
+  gamma: 0.99
+  batch_size: 64
+  replay_size: 30000
+  learning_starts: 1000
+  train_every: 1
+  target_update: 500
+  eps_end: 0.05
+  eps_decay_steps: 20000
+  eval_every: 5000
+  eval_episodes: 5
+  final_eval_episodes: 20
