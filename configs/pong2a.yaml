@@ -1,0 +1,11 @@
+# Pong v2: cropped + background-subtracted frames, foreground-weighted VAE loss,
+# tracking-policy data so the dataset contains rallies and rewards.
+run_name: pong2a
+env: {type: atari, name: ALE/Pong-v5, frame_stack: 4, max_steps: 1000, clip_reward: true, preprocess: pong}
+data: {train_transitions: 30000, test_transitions: 5000, sizes: [30000], pong_heuristic: true,
+       heuristic_fraction: 0.7, heuristic_epsilon: 0.15}
+vae: {latent_dim: 32, beta: 0.01, fg_weight: 50, epochs: 60}
+dynamics: {hidden: 512, seq_len: 16, epochs: 60}
+mpc: {horizon: 10, candidates: 256}
+control: {horizons: [1, 5, 10, 20], episodes: 10}
+dqn: {total_steps: 300000, replay_size: 30000, eps_decay_steps: 100000}
