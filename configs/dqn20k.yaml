@@ -1,0 +1,2 @@
+run_name: cp_dqn20k
+dqn: {total_steps: 20000, eps_decay_steps: 10000, eval_every: 5000, eval_episodes: 10, final_eval_episodes: 50}

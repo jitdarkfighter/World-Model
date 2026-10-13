@@ -1,0 +1,6 @@
+# Fair data-efficiency study: world model trained on purely random-policy data (no heuristic).
+run_name: cp_rand
+data: {heuristic_fraction: 0.0, test_heuristic_fraction: 0.5, sizes: [20000]}
+vae: {beta: 0.03, epochs: 100}
+eval: {horizons: [1, 5, 10, 20]}
+control: {horizons: [5, 10, 20], episodes: 20}
