@@ -1,0 +1,11 @@
+torch>=2.0
+numpy
+pandas
+matplotlib
+pyyaml
+opencv-python-headless
+gymnasium[classic-control]>=0.29
+pygame
+# Atari Pong extension (ROMs are bundled with ale-py >= 0.9)
+gymnasium[atari]>=0.29
+ale-py>=0.9
