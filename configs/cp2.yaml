@@ -1,0 +1,5 @@
+# Settings used for the main CartPole study (same as the earlier cartpole2 run).
+run_name: cartpole2
+vae: {beta: 0.03, epochs: 100}
+eval: {horizons: [1, 5, 10, 20, 30, 40]}
+control: {horizons: [1, 5, 10, 20, 30, 40]}
