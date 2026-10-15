@@ -14,5 +14,3 @@ venv/
 !/results/.gitkeep
 features.md
 Paper Template (1)(1).docx
-paper/
-# paper/results is intentionally tracked
